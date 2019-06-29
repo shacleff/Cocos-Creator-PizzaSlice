@@ -1,0 +1,32 @@
+{
+  "ver": "2.3.0",
+  "uuid": "4c59942b-563f-4b46-9204-699fd482a1ed",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "platformSettings": {},
+  "subMetas": {
+    "PizzaHolder1": {
+      "ver": "1.0.4",
+      "uuid": "d639ee8b-18f9-4fe7-8e0a-1d450cf7d41d",
+      "rawTextureUuid": "4c59942b-563f-4b46-9204-699fd482a1ed",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 495,
+      "height": 462,
+      "rawWidth": 495,
+      "rawHeight": 462,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
