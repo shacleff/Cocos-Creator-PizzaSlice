@@ -19,6 +19,7 @@ cc.Class({
         spriteFrameOn: cc.SpriteFrame,
         spriteFrameOff: cc.SpriteFrame,
         ads: cc.Prefab,
+        numberChargeAddedWhenAds : 3,
     },
 
     onLoad () {
@@ -37,6 +38,9 @@ cc.Class({
         if(this.number <= 0){
             let ads = cc.instantiate(this.ads);
             ads.position = cc.v2(0,0);
+            ads.getComponent('AdsVideo').callBack = (()=>{
+                this.getPowerUpCharge(this.numberChargeAddedWhenAds);
+            }).bind(this);
             cc.find('Canvas').addChild(ads);
         }else{
             window.holderManager.enableTapToDestroy();

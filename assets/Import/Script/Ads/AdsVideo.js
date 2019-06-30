@@ -47,8 +47,7 @@ cc.Class({
 
     skipAds(){
         this.node.destroy();
-        if(this.skipCallBack){
-            this.skipCallBack.continue();
-        }
+        if(this.callBack)
+            this.callBack();
     }
 });

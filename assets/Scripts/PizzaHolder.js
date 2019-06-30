@@ -1,12 +1,17 @@
+const ACTION_HINT = 7;
+
 cc.Class({
     extends: cc.Component,
 
     properties: {
         pizzaGroups : [],    //PizzaGroup Objects
         playAble: true,
+        timeFade: 1,
+        fadeOutTo: 120,
     },
 
     onLoad () {
+        this.isShowingFit = false;
     },
 
     update(dt){
@@ -132,4 +137,25 @@ cc.Class({
         for(let group of this.pizzaGroups)count += group.pizzas.length;
         return count;
     },
+
+    showCanFit(){
+        if(this.isShowingFit)return;
+        for(let pg of this.pizzaGroups){
+            this.isShowingFit = true;
+            let action = cc.repeatForever(cc.sequence(
+                cc.fadeTo(this.timeFade, this.fadeOutTo),
+                cc.fadeTo(this.timeFade, 255)
+            ));
+            action.setTag(ACTION_HINT);
+            pg.node.runAction(action);
+        }
+    },
+
+    stopShowCanFit(){
+        for(let pg of this.pizzaGroups){
+            pg.node.stopActionByTag(ACTION_HINT);
+            pg.node.opacity = 255;
+        }
+        this.isShowingFit = false;
+    }
 });

@@ -79,7 +79,7 @@ cc.Class({
         if(this.listAds.length > EAds.ADS_VIDEO){
             let node = cc.instantiate(this.listAds[EAds.ADS_VIDEO]);
             let adsCom = node.getComponent('AdsVideo');
-            adsCom.skipCallBack = this;
+            adsCom.callBack = (()=>{this.continue()}).bind(this);
             cc.find('Canvas').addChild(node);
             this.backRefreshBtnActive(false);
             this.continueBtn.active = false;

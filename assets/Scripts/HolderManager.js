@@ -22,6 +22,9 @@ cc.Class({
 
     update(dt){
         if(this.panHolderCom.getNumberPizza() == 0){
+            this.pizzaHolders.forEach(element => {
+                element.getComponent('PizzaHolder').stopShowCanFit();
+            });
             this.putPizzaFromNextToPan();
             let available = this.getAvailableHolder();
             if(available.length == 0){
@@ -37,6 +40,9 @@ cc.Class({
                 this.node.stopAllActions();
                 window.game.status = GAME_STATUS.PLAYING;
                 // window.game.status = GAME_STATUS.CANNOT_PLAY;
+                available.forEach(element => {
+                    element.getComponent('PizzaHolder').showCanFit();
+                });
             }
         }
     },
