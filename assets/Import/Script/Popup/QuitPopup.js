@@ -25,7 +25,7 @@ cc.Class({
     },
 
     no(){
-        window.game.quitPopupShowed = false;
+        QuitPopupShowed = false;
         this.node.destroy();
     }
 

@@ -9,32 +9,30 @@ cc.Class({
 
     onLoad(){
         window.game = this;
-        this.status = GAME_STATUS.WELCOM;
-        this.quitPopupShowed = false;
     },
 
     start () {
-        this.status = GAME_STATUS.PLAYING;
+        Game_Status = GAME_STATUS.PLAYING;
     },
 
     update (dt) {
-        if(this.status == GAME_STATUS.PLAYING){
+        if(Game_Status == GAME_STATUS.PLAYING){
 
-        } else if(this.status == GAME_STATUS.CANNOT_PLAY){
+        } else if(Game_Status == GAME_STATUS.CANNOT_PLAY){
             cc.log("Status Cannot play");
 
-            this.status = GAME_STATUS.LOSE
-        } else if(this.status == GAME_STATUS.LOSE){
+            Game_Status = GAME_STATUS.LOSE
+        } else if(Game_Status == GAME_STATUS.LOSE){
             cc.log("Status LOSE");
             let gameover = cc.instantiate(this.gameOver);
             this.uiNode.addChild(gameover);
-            this.status = GAME_STATUS.WELCOM;
+            Game_Status = GAME_STATUS.WELCOM;
         }
     },
 
     
     refresh(){
-        if(this.quitPopupShowed)return false;
+        if(QuitPopupShowed)return false;
         window.scoreManager.reset();
         window.pizzaGeneration.reset();
         window.customerOrder.reset();
@@ -44,7 +42,7 @@ cc.Class({
     },
 
     continue(){
-        if(this.quitPopupShowed)return false;
+        if(QuitPopupShowed)return false;
         window.pizzaGeneration.reset();
         window.customerOrder.reset();
         window.holderManager.reset(false, true);
@@ -52,11 +50,11 @@ cc.Class({
     },
 
     home(){
-        if(this.quitPopupShowed)return false;
+        if(QuitPopupShowed)return false;
 
         let quit = cc.instantiate(this.quitPopup);
         this.uiNode.addChild(quit);
-        this.quitPopupShowed = true;
+        QuitPopupShowed = true;
         return true;
     },
     

@@ -5698,7 +5698,7 @@
       "__uuid__": "353d8b7e-3ddc-4101-8d62-b147c93edea2"
     },
     "quitPopup": {
-      "__uuid__": "0b0b521f-ea75-445a-9763-a3e84ccc35c0"
+      "__uuid__": "6d11b06d-325d-4256-8a2e-e74c54b7f0d3"
     },
     "_id": "aaDTtN8s5C46/IJ20+vt61"
   },
@@ -5732,8 +5732,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
+      "width": 1080,
+      "height": 1920
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5947,7 +5947,7 @@
     "_target": {
       "__id__": 2
     },
-    "_alignFlags": 18,
+    "_alignFlags": 45,
     "_left": 0,
     "_right": 0,
     "_top": 0,

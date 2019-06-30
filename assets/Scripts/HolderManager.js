@@ -21,6 +21,8 @@ cc.Class({
     },
 
     update(dt){
+        if(Game_Status == GAME_STATUS.WELCOM)return;
+        
         if(this.panHolderCom.getNumberPizza() == 0){
             this.pizzaHolders.forEach(element => {
                 element.getComponent('PizzaHolder').stopShowCanFit();
@@ -32,14 +34,14 @@ cc.Class({
                     this.node.runAction(cc.sequence(
                         cc.delayTime(2),
                         cc.callFunc(()=>{
-                            window.game.status = GAME_STATUS.CANNOT_PLAY;
+                            Game_Status = GAME_STATUS.CANNOT_PLAY;
                         }) 
                     ));
                 }
             }else{
                 this.node.stopAllActions();
-                window.game.status = GAME_STATUS.PLAYING;
-                // window.game.status = GAME_STATUS.CANNOT_PLAY;
+                Game_Status = GAME_STATUS.PLAYING;
+                // Game_Status = GAME_STATUS.CANNOT_PLAY;
                 available.forEach(element => {
                     element.getComponent('PizzaHolder').showCanFit();
                 });
@@ -109,7 +111,7 @@ cc.Class({
     scoreAtHolder(holder, useAnimate = true){
         let score = holder.getNumberPizza();
         let findIndex = this.pizzaHolders.findIndex(o => o.uuid == holder.node.uuid);
-        if(findIndex < this.holderLink.length){
+        if(findIndex < this.holderLink.length && findIndex != -1){
             let link = this.holderLink[findIndex];
             for(let i of link.links){
                 let count = this.pizzaHolders[i].getComponent('PizzaHolder').remove(true, true);
@@ -117,14 +119,14 @@ cc.Class({
             }
         }
 
-        window.customerOrder.campareWithOrder(holder);
-        window.scoreManager.increWithPizza(score);
+        if(window.customerOrder)window.customerOrder.campareWithOrder(holder);
+        if(window.scoreManager)window.scoreManager.increWithPizza(score);
     },
 
     //@param : holder - PizzaHolder Object
     putPizzaFromPanToHolder(holder){
         let canMove = this.movePizzaGroupFromHolderToHolder(this.pan, holder);
-        if(canMove)window.pizzaGeneration.move();
+        if(canMove && window.pizzaGeneration)window.pizzaGeneration.move();
     },
 
     putPizzaFromNextToPan(){

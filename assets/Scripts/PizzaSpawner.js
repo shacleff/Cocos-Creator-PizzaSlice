@@ -32,6 +32,8 @@ cc.Class({
     },
 
     update(dt){
+        if(Game_Status == GAME_STATUS.WELCOM)return;
+        
         if(this.nextHolderCom.getNumberPizza() == 0){
             let creation = this.getCreationOfPizza();
             this.spawnPizzaToNext(creation.number, creation.typeStart, creation.isAnticlockwise, creation.type);

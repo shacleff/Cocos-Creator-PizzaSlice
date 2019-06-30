@@ -22,6 +22,9 @@ const GAME_STATUS = {
     LOSE: 'lose'
 };
 
+var Game_Status = GAME_STATUS.WELCOM;
+var QuitPopupShowed = false; 
+
 const getTrueAngle = angle =>{
     angle = angle % 360;
     return (angle < 0 ? angle + 360 : angle);
