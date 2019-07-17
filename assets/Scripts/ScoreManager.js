@@ -17,20 +17,32 @@ cc.Class({
         scoreExtraWhenFitOrder: 10,
         numberFitOrderToGetPower: 3,
         numberPowerReceived: 1,
-        scoreLabel: cc.Label
+        scoreLabel: cc.Label,
+        coinLabel: cc.Label
     },
     onLoad(){
         window.scoreManager = this;
+        this.targetScore = this.score;
+        this.totalScore = 0;
         this.reset();
     },
 
     increWithPizza(number){
-        this.score += this.scoreIncreEachPizza * number;
+        this.targetScore += this.scoreIncreEachPizza * number;
+        this.totalScore += this.scoreIncreEachPizza * number;
         this.updateScore();
     },
 
+    update(dt){
+        if(this.score < this.targetScore){
+            this.score++;
+            this.updateScore();
+        }
+    },
+
     increFitOrder(){
-        this.score += this.scoreExtraWhenFitOrder;
+        this.targetScore += this.scoreExtraWhenFitOrder;
+        this.totalScore += this.scoreExtraWhenFitOrder;
         this.countFitOrder++;
         this.updateScore();
     },
@@ -41,10 +53,12 @@ cc.Class({
             this.countFitOrder = 0;
             window.powerUpCharge.getPowerUpCharge(this.numberPowerReceived);
         }
+        this.coinLabel.string = this.totalScore;
     },
 
     reset(){
         this.score = 0;
+        this.targetScore = this.score;
         this.countFitOrder = 0;
         this.updateScore();
     }

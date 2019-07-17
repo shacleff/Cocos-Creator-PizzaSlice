@@ -68,17 +68,41 @@ cc.Class({
     },
 
     campareWithOrder(holderCom){
+        // if(this.pizzaHolderCom.fitOrder)return;
+
         let holderCompare = holderCom.getCompare();
         let cusCompare = this.pizzaHolderCom.getCompare();
         
         if(cusCompare.length == holderCompare.length && cusCompare.length == MAX_PIZZA_ON_HOLDER){
             for(let i = 0; i < cusCompare.length; i++){
                 if(cusCompare[i].slice != holderCompare[i].slice)
-                    return;
+                    return false;
             }
             window.scoreManager.increFitOrder();
-            this.pizzaHolderCom.remove(true);
+            this.removeWhenFitOrder(holderCom);
+            return true;
         }
+        return false;
+    },
+
+    removeWhenFitOrder(holder){
+        let pizzaInOrder = Array.from(this.pizzaHolderCom.pizzaGroups);
+        let action = cc.sequence(
+            cc.delayTime(window.config.pizzaMoveTime),
+            cc.callFunc(()=>{
+                window.holderManager.movePizzaGroupFromHolderToHolder(holder.node, this.pizzaHolder);
+                this.pizzaHolderCom.remove(true, true);
+                holder.fitOrder = false;
+            }),
+            cc.delayTime(window.config.pizzaMoveTime),
+            cc.callFunc(()=>{
+                for(let pg of pizzaInOrder)pg.destroy();
+                pizzaInOrder.length = 0;
+            })
+        )
+        this.pizzaHolderCom.remove(false, false);
+        holder.fitOrder = true;
+        this.node.runAction(action);
     },
     
     reset(){

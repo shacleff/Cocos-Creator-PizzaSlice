@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "e43a2923-ccc8-4c12-8622-4dcf41370adb",
+  "atlasJson": "{\"width\":128,\"imagePath\":\"Fx_Pizza_tex.png\",\"height\":64,\"name\":\"Fx_Pizza\",\"SubTexture\":[{\"width\":54,\"y\":1,\"height\":54,\"name\":\"Circle\",\"x\":1},{\"width\":49,\"y\":1,\"height\":49,\"name\":\"C_fill\",\"x\":57}]}",
+  "texture": "00d1c152-e108-492e-a37a-7d27395c0c7a",
+  "subMetas": {}
+}

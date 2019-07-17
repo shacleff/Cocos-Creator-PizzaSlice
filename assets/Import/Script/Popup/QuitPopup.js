@@ -21,6 +21,7 @@ cc.Class({
     },
 
     yes(){
+        AddCoin(window.scoreManager.targetScore);
         OnBackButton();
     },
 

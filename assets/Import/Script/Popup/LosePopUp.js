@@ -32,6 +32,7 @@ cc.Class({
             default: []
         },
         toProgress: 1,
+        coinLabeL: cc.Label
     },
 
     onLoad(){
@@ -41,9 +42,10 @@ cc.Class({
         widget.target = cc.find('Canvas');
         widget.updateAlignment();
         this.lockBtn = false;
-        this.visibleContinue = true;
+        this.visibleContinue = CanContinue;
         this.continueBtn.active = this.visibleContinue;
         this.backRefreshBtnActive(false);
+        this.coinLabeL.string = window.scoreManager.targetScore;
     },
 
     start(){

@@ -16,6 +16,8 @@ cc.Class({
     },
 
     update (dt) {
+        // if(Game_Status == GAME_STATUS.PLAYING)Game_Status = GAME_STATUS.LOSE;
+
         if(Game_Status == GAME_STATUS.PLAYING){
 
         } else if(Game_Status == GAME_STATUS.CANNOT_PLAY){
@@ -33,11 +35,13 @@ cc.Class({
     
     refresh(){
         if(QuitPopupShowed)return false;
+        AddCoin(window.scoreManager.targetScore);
         window.scoreManager.reset();
         window.pizzaGeneration.reset();
         window.customerOrder.reset();
         window.holderManager.reset(true, false);
-
+        Game_Status = GAME_STATUS.PLAYING
+        CanContinue = true;
         return true;
     },
 
@@ -46,6 +50,8 @@ cc.Class({
         window.pizzaGeneration.reset();
         window.customerOrder.reset();
         window.holderManager.reset(false, true);
+        Game_Status = GAME_STATUS.PLAYING
+        CanContinue = false;
         return true;
     },
 

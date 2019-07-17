@@ -1,5 +1,5 @@
 let HolderLink = require('./HolderLink')
-
+const SCALE_TAG = 6;
 cc.Class({
     extends: cc.Component,
 
@@ -8,16 +8,32 @@ cc.Class({
             default: [],
             type: cc.Node
         },
+        scaleHolder: 0.8,
+        scaleDuration : 0.1,
         holderLink: [HolderLink],
 
         nextHolder: cc.Node,
         pan: cc.Node,
+        darkenNode: cc.Node,
+        playUITopArea: cc.Node,
+        alterCannotPlace: cc.Node,
+        moveToLoseSceneAfter: 1,
+        
     },
 
     onLoad(){
         window.holderManager = this;
         this.enableTapToPlace();
         this.panHolderCom = this.pan.getComponent('PizzaHolder');
+        if(this.alterCannotPlace)this.alterCannotPlace.active = false;
+    },
+
+    start(){
+        this.holderOriginScale = 1;
+        if(this.pizzaHolders.length > 0){
+            this.holderOriginScale = this.pizzaHolders[0].scale;
+            this.scaleHolder *= this.holderOriginScale;
+        }
     },
 
     update(dt){
@@ -31,10 +47,12 @@ cc.Class({
             let available = this.getAvailableHolder();
             if(available.length == 0){
                 if(this.node.getNumberOfRunningActions() == 0){
+                    this.alterCannotPlace.active = true;
                     this.node.runAction(cc.sequence(
-                        cc.delayTime(2),
+                        cc.delayTime(this.moveToLoseSceneAfter),
                         cc.callFunc(()=>{
                             Game_Status = GAME_STATUS.CANNOT_PLAY;
+                            this.alterCannotPlace.active = false;
                         }) 
                     ));
                 }
@@ -56,6 +74,7 @@ cc.Class({
             this.nextHolder.getComponent('PizzaHolder').remove(true, useAnimate);
             this.pan.getComponent('PizzaHolder').remove(true, useAnimate);
         }
+        this.alterCannotPlace.active = false;
     },
 
     getAvailableHolder(){
@@ -78,16 +97,37 @@ cc.Class({
     },
 
     enableTapToPlace(){
+        if(this.darkenNode)this.darkenNode.active = false;
+        if(this.playUITopArea)this.playUITopArea.zIndex = 3;
+        let scaleHolder = (holder, duration, scaleTo) =>{
+            holder.stopActionByTag(SCALE_TAG);
+            let action = cc.scaleTo(duration, scaleTo, scaleTo);
+            action.setTag(SCALE_TAG);
+            holder.runAction(action);
+        };
+
         for(let holder of this.pizzaHolders){
             let com = holder.getComponent('PizzaHolder');
             holder.targetOff(holder);
-            holder.on('click', ()=> this.putPizzaFromPanToHolder(holder), holder);
-
+            // holder.on('click', ()=> this.putPizzaFromPanToHolder(holder), holder);
+            holder.on(cc.Node.EventType.TOUCH_START, ()=> {
+                scaleHolder(holder, this.scaleDuration, this.scaleHolder);
+            }, holder)
+            holder.on(cc.Node.EventType.TOUCH_END, ()=> {
+                this.putPizzaFromPanToHolder(holder);
+                scaleHolder(holder, this.scaleDuration, this.holderOriginScale);
+            }, holder);
+            holder.on(cc.Node.EventType.TOUCH_CANCEL, ()=> {
+                scaleHolder(holder, this.scaleDuration, this.holderOriginScale);
+            }, holder);
+            
             // holder.node.on(cc.Node.EventType.TOUCH_CANCEL, ()=>com.score());
         }
     },
 
     enableTapToDestroy(){
+        if(this.darkenNode)this.darkenNode.active = true;
+        if(this.playUITopArea)this.playUITopArea.zIndex = 1;
         let canvas = cc.find('Canvas');
         canvas.once(cc.Node.EventType.TOUCH_END, ()=>{
             cc.log("Touch else to cancel");

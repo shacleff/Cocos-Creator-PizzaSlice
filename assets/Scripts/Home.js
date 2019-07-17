@@ -15,13 +15,15 @@ cc.Class({
         pan: cc.Node,
         holder: cc.Node,
         quitPopup: cc.Prefab,
-        uiNode: cc.Node
+        uiNode: cc.Node,
+        hand: cc.Node,
+        startGameNode: cc.Node
     },
 
     onLoad(){
         Game_Status = GAME_STATUS.WELCOM;
         this.isReseted = false;
-        this.uiNode.on(cc.Node.EventType.TOUCH_END, this.startGame, this);
+        this.startGameNode.on(cc.Node.EventType.TOUCH_END, this.startGame, this);
     },
 
     update(){
@@ -38,12 +40,16 @@ cc.Class({
         let pizzaPan = window.pizzaSpawner.spawnPizzaGroup(2, PIZZA_TYPE.BOT_LEFT, true, SLICE_TYPE.SLICE_1);
         window.pizzaSpawner.putPizzaGroup(pizzaPan, this.pan);
 
+        this.hand.getComponent(cc.Animation).play();
+        this.hand.active = true;
         let action = cc.sequence(
             cc.delayTime(2),
             cc.callFunc(()=>{
+                this.hand.getComponent(cc.Animation).stop();
+                this.hand.active = false;
                 window.holderManager.putPizzaFromPanToHolder(this.holder.getComponent('PizzaHolder'));
             }, this),
-            cc.delayTime(window.config.pizzaMoveTime * 2),
+            cc.delayTime(window.config.pizzaMoveTime * 4),
             cc.callFunc(()=> {this.isReseted = false;})
         );
 
@@ -54,6 +60,7 @@ cc.Class({
         if(QuitPopupShowed)return;
         cc.director.loadScene('GamePlay');
     },
+
 
     home(){
         if(QuitPopupShowed)return false;

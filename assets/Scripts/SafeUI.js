@@ -12,21 +12,26 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        orderBarArea: cc.Node,
-        playUITopArea : cc.Node,
-        holdersArea : cc.Node,
-        darken : cc.Node,
-        HomeBtn: cc.Node,
+        topUI: [cc.Node]
     },
 
     onLoad () {
-        if(this.playUITopArea)this.playUITopArea.zIndex = 3;
-        if(this.holdersArea)this.holdersArea.zIndex = 2;
-        if(this.orderBarArea)this.orderBarArea.zIndex = 0;
-        // if(this.darken)this.darken.zIndex = 2;
-        if(this.HomeBtn)this.HomeBtn.zIndex = 10;
+        let screen = cc.find('Canvas').getContentSize();
+        let safeZone = cc.sys.getSafeAreaRect();
+        let distanceY = screen.height - safeZone.height;
+        cc.log("Screen : " + screen);
+        cc.log("Safe : " + safeZone);
+        cc.log("distance : " + distanceY);
+        for(let ui of this.topUI){
+            let widget = ui.getComponent(cc.Widget);
+            if(widget){
+                widget.top += distanceY;
+                // widget.top += 100;
+                widget.updateAlignment();
+            }else{
+                ui.position = cc.v2(ui.position.x, ui.position.y - distanceY);
+            }
+            
+        }
     },
-
-
-
 });

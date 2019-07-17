@@ -14,21 +14,22 @@ cc.Class({
 
     onLoad () {
         window.scaler = this;
-        let designSize = this.node.getComponent(cc.Canvas).designResolution;
         let currentSize = this.node.getContentSize();
         let ratio = 1;
         ratio = this.convertRatioWidthHeight(ratio, currentSize);
-        cc.log("ratio Scale : " + ratio);
         for(let obj of this.objectsScale){
             let size = obj.getContentSize();
-            obj.setContentSize(size.width * ratio, size.height * ratio);
+            // obj.setContentSize(size.width * ratio, size.height * ratio);
+            obj.setScale(ratio * obj.scale);
+            // obj.scale += ratio - 1;
         }
     },
 
     scaleNode(node){
         let ratio = this.convertRatioWidthHeight(1, this.node.getContentSize());
         let size = node.getContentSize();
-        node.setContentSize(size.width * ratio, size.height * ratio);
+        // node.setContentSize(size.width * ratio, size.height * ratio);
+        // node.setScale(ratio * node.scale);
     },
 
     convertRatioWidthHeight(ratio, screenSize){

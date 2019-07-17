@@ -217,6 +217,7 @@ cc.Class({
         this.countStayAlive = getRandomRange(this.stayAliveMoves.min, this.stayAliveMoves.max);
         this.totalCountMove = this.countStayAlive;
         this.queue.length = 0;
+        this.currentPhase = 1;
     },
 
     move(){
